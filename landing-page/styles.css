@@ -24,11 +24,6 @@ header, .cards, .quote, .call-to-action {
   position: relative;
 }
 
-.shadowed {
-  -webkit-box-shadow: var(--bs-ms);
-          box-shadow: var(--bs-ms);
-}
-
 @font-face {
   font-family: 'Nunito';
   src: url('./inc/NunitoSans-Regular.ttf') format('truetype');
