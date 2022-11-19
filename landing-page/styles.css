@@ -4,11 +4,12 @@
   --brown: #7D7645;
   --white: #ffffff;
   --gray: #B9BCC1;
-  --light-gray: #E5E7EB;
-  --text: #232323;
+  --light-gray: #eceff3;
+  --text: #333333;
   --fs-text: 1.13rem; /* 20px */
   --fs-h1: 2.50rem;
-  --fs-h2: 2.25rem;
+  --fs-h2: 2rem;
+  --fs-quote: 1.8rem;
   --bs: 0.8rem 0.8rem 1px rgba(0,0,0,0.5), 0 3px 6px rgba(0,0,0,0.5);
 }
 
@@ -26,6 +27,13 @@
   font-weight: 700;
 }
 
+@font-face {
+  font-family: 'Nunito';
+  src: url('./inc/NunitoSans-ExtraBoldItalic.ttf') format('truetype');
+  font-style: italic;
+  font-weight: 700;
+}
+
 * {
   box-sizing: border-box;
   margin:0;
@@ -36,8 +44,12 @@
   transition: all 40ms linear;
 }
 
+small {
+  font-size: 1rem;
+}
+
 a {
-  color:#CED1D6;
+  color:var(--light-gray);
 }
 
 a:hover,
@@ -56,6 +68,10 @@ h1, h2, h3, h4 , h5 {
   padding-bottom: 1rem;
 }
 
+h1 {
+  filter: drop-shadow(1px 1px #000000);
+}
+
 .outer {
   background-color: var(--white);
   display: flex;
@@ -63,6 +79,11 @@ h1, h2, h3, h4 , h5 {
   padding: 0 2rem;
   color: var(--text);
 }
+
+.outer.nopadding {
+  padding: 0;
+}
+
 .outer h2 {
   color: var(--text);
 }
@@ -73,12 +94,16 @@ h1, h2, h3, h4 , h5 {
 }
 
 .outer.gray {
-  background-color: var(--gray);
+  background-color: var(--light-gray);
 }
 
 .inner {
   width: 1200px;
   padding: 1rem;
+}
+
+.inner.nopadding {
+  padding: 0;
 }
 
 /*nav*/
@@ -164,11 +189,12 @@ nav ul {
 
 
 .btn {
-  display: inline-block;
+  display: block;
   position: relative;
   background-color: var(--light-blue);
   text-decoration: none;
   color: var(--white);
+  width: 13rem;
   margin: 1rem 0;
   padding: 0.6rem 1rem;
   border: 1px solid #253042;
@@ -186,7 +212,120 @@ nav ul {
   color: #fff;
 }
 
+section.outer {
+  padding: 5rem 0;
+}
+
 main h2 {
   text-align: center;
 }
 
+.info-cards {
+ display: flex;
+ justify-content: center;
+ text-align: center;
+}
+
+.card-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  border: 1px solid #000;
+  border-radius: 8px;
+  background-color: blue;
+  margin: 1rem;
+  box-shadow: var(--bs);
+}
+
+.card-container:hover,
+.card-container:focus {
+  filter: saturate(1.5) drop-shadow(0 0 0.75rem #fff);
+  box-shadow: 2px 2px 2px currentColor;
+}
+
+.card-container p {
+  display: block;
+  background-color: #fff;
+  padding: 0.8rem;
+  border-radius: 0 0 0.5rem 0.5rem;;
+  border-top: 1px solid #888;
+  width: 100%;
+  font-weight: 700;
+}
+
+.card-img {
+  display: block;
+  height: 15rem;
+  width: 10rem;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position-y: center;
+  padding: 2rem;
+  filter: saturate(0.7);
+}
+
+.card-container:nth-of-type(1) {
+  background-image: linear-gradient(to right top, #a7c9a4, #afcb9c, #bacb95, #c6cc8d, #d4cb87);
+}
+
+.card-container:nth-of-type(2) {
+  background-image: linear-gradient(to right top, #b3c272, #d0c586, #e3ca9f, #ecd2bb, #edddd5);
+}
+
+.card-container:nth-of-type(3) {
+  background-image: linear-gradient(to right top, #ffbdbc, #e7a69e, #ce9082, #b47c66, #9a684c);
+}
+
+.card-container:nth-of-type(4) {
+  background-image: linear-gradient(to right top, #ddc262, #ddb868, #ffc884, #ffc399, #ffc1ab);
+}
+
+.card-container:nth-of-type(1) .card-img {
+  background-image: url("img/tractor.png");
+}
+
+.card-container:nth-of-type(2) .card-img {
+  background-image: url("img/building.png");
+}
+
+.card-container:nth-of-type(3) .card-img {
+  background-image: url("img/truck.png");
+}
+
+.card-container:nth-of-type(4) .card-img {
+  background-image: url("img/yellow-tractor.png");
+}
+
+.quote figure {
+  margin: 0 2rem;
+}
+
+blockquote p {
+  position: relative;
+  text-align: justify;
+  font-size: var(--fs-quote);
+  padding: 2rem;
+  line-height: 3.6rem;
+  letter-spacing: -1px;
+  font-weight: 700;
+  color: #333333;
+  filter: drop-shadow(2px 2px #ccc);
+  z-index: 1;
+}
+
+blockquote p:before {
+  content: open-quote;
+  position: absolute;
+  top: 120px;
+  left: -40px;
+  font-size: 30rem;
+  opacity: 0.1;
+  display: block;
+  z-index: -1;
+}
+
+figure figcaption {
+  padding: 2rem;
+}
