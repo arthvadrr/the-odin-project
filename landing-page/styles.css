@@ -1,6 +1,6 @@
 :root {
   --dark-blue: #1F2937;
-  --light-blue: #3882f6;
+  --light-blue: #3671CE;
   --brown: #7D7645;
   --white: #ffffff;
   --gray: #B9BCC1;
@@ -11,6 +11,16 @@
   --fs-h2: 2rem;
   --fs-quote: 1.8rem;
   --bs: 0.8rem 0.8rem 1px rgba(0,0,0,0.5), 0 3px 6px rgba(0,0,0,0.5);
+  --bs-ms: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+}
+
+header, .cards, .quote, .call-to-action {
+  position: relative;
+  box-shadow: var(--bs-ms);
+}
+
+.shadowed {
+  box-shadow: var(--bs-ms);
 }
 
 @font-face {
@@ -72,6 +82,16 @@ h1 {
   filter: drop-shadow(1px 1px #000000);
 }
 
+.row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.row .col {
+  width: 100%;
+}
+
 .outer {
   background-color: var(--white);
   display: flex;
@@ -88,12 +108,18 @@ h1 {
   color: var(--text);
 }
 
-.outer.blue {
+.blue,
+.blue {
   background-color: var(--dark-blue);
   color: var(--gray);
 }
 
-.outer.gray {
+.blue h2 {
+  color: #ffffff;
+}
+
+.gray,
+.gray {
   background-color: var(--light-gray);
 }
 
@@ -235,6 +261,8 @@ nav ul {
   text-decoration: none;
   color: var(--white);
   margin: 1rem 0;
+  min-width: 8rem;
+  text-align: center;
   padding: 0.6rem 1rem;
   border: 1px solid #253042;
   border-radius: 6px;
@@ -324,19 +352,19 @@ main h2 {
 }
 
 .card-container:nth-of-type(1) .card-img {
-  background-image: url("img/tractor.png");
+  background-image: url("img/tractor.webp");
 }
 
 .card-container:nth-of-type(2) .card-img {
-  background-image: url("img/building.png");
+  background-image: url("img/building.webp");
 }
 
 .card-container:nth-of-type(3) .card-img {
-  background-image: url("img/truck.png");
+  background-image: url("img/truck.webp");
 }
 
 .card-container:nth-of-type(4) .card-img {
-  background-image: url("img/yellow-tractor.png");
+  background-image: url("img/yellow-tractor.webp");
 }
 
 .quote figure {
@@ -370,3 +398,55 @@ figure figcaption {
   padding: 2rem;
 }
 
+.cta {
+  border: 1px solid black;
+  padding: 1rem;
+  margin: 2rem;
+  box-shadow: var(--bs);
+  border-radius: 8px;
+}
+
+.cta.blue {
+  background-color: var(--light-blue);
+  color: #fff;
+}
+
+.cta.blue .row .col .btn {
+  background-color: var(--dark-blue);
+}
+
+.cta h2 {
+  font-size: var(--fs-h2);
+  text-align: left;
+}
+
+.cta .row {
+  justify-content: space-between;
+}
+
+.cta .row .col {
+  width: auto;
+}
+
+.cta .btn {
+  box-shadow: none;
+}
+
+.copyright-info {
+  padding: 2rem;
+}
+
+@media screen and (max-width: 1000px) {
+  .hero-inner {
+    flex-direction: column-reverse;
+    flex-wrap: wrap;
+    text-align: center;
+  }
+
+  .info-cards {
+    flex-wrap: wrap;
+  }
+  .info-cards .card-container {
+    width: 260px;
+  }
+}
