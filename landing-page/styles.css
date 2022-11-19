@@ -1,0 +1,192 @@
+:root {
+  --dark-blue: #1F2937;
+  --light-blue: #3882f6;
+  --brown: #7D7645;
+  --white: #ffffff;
+  --gray: #B9BCC1;
+  --light-gray: #E5E7EB;
+  --text: #232323;
+  --fs-text: 1.13rem; /* 20px */
+  --fs-h1: 2.50rem;
+  --fs-h2: 2.25rem;
+  --bs: 0.8rem 0.8rem 1px rgba(0,0,0,0.5), 0 3px 6px rgba(0,0,0,0.5);
+}
+
+@font-face {
+  font-family: 'Nunito';
+  src: url('./inc/NunitoSans-Regular.ttf') format('truetype');
+  font-style: normal;
+}
+
+
+@font-face {
+  font-family: 'Nunito';
+  src: url('./inc/NunitoSans-ExtraBold.ttf') format('truetype');
+  font-style: bold;
+  font-weight: 700;
+}
+
+* {
+  box-sizing: border-box;
+  margin:0;
+  padding:0;
+  font-family: 'Nunito';
+  font-size: var(--fs-text);
+  font-weight: 400;
+  transition: all 40ms linear;
+}
+
+a {
+  color:#CED1D6;
+}
+
+a:hover,
+a:focus {
+  color: #fff;
+}
+
+a:active {
+  color: rgb(200, 200, 255);
+}
+
+h1, h2, h3, h4 , h5 {
+  font-size: var(--fs-h1);
+  color: var(--white);
+  font-weight: 900;
+  padding-bottom: 1rem;
+}
+
+.outer {
+  background-color: var(--white);
+  display: flex;
+  justify-content: center;
+  padding: 0 2rem;
+  color: var(--text);
+}
+.outer h2 {
+  color: var(--text);
+}
+
+.outer.blue {
+  background-color: var(--dark-blue);
+  color: var(--gray);
+}
+
+.outer.gray {
+  background-color: var(--gray);
+}
+
+.inner {
+  width: 1200px;
+  padding: 1rem;
+}
+
+/*nav*/
+nav {
+  background-color: #262318;
+}
+
+nav .inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+nav .inner a {
+  margin-left: 1rem;
+  font-size: 1rem;
+}
+
+nav .inner ul {
+  display: flex;
+  list-style: none;
+}
+
+nav .logo {
+  filter: drop-shadow(0 0 2rem #fff);
+  animation: glow 15s infinite linear;
+}
+
+@keyframes glow {
+  0% {
+    filter: drop-shadow(0 0 2rem #fff);
+    rotate: 0deg;
+  }
+  10% {
+    rotate: 10deg;
+    filter: drop-shadow(0 0 3rem #000);
+  }
+  90% {
+    rotate: -10deg;
+    filter: drop-shadow(0 0 3rem #000);
+  }
+  100% {
+    rotate: 0deg;
+    filter: drop-shadow(0 0 2rem #fff);
+  }
+}
+
+nav img {
+  height: 50px;
+  width: 50px;
+}
+
+nav ul {
+  display: flex;
+}
+
+.hero {
+  padding: 2rem 0 5rem;
+}
+
+.hero-inner {
+  display: flex;
+  align-items: center;
+}
+
+.col {
+  width: 100%;
+}
+
+.spacer {
+  width: 10rem;
+  height: 4rem;
+}
+
+.hero-img {
+  height: 300px;
+  width: 100%;
+  background-size: cover;
+  background-image: url("img/fields.jpg");
+  border-radius: 1rem;
+  box-shadow: var(--bs);
+}
+
+
+.btn {
+  display: inline-block;
+  position: relative;
+  background-color: var(--light-blue);
+  text-decoration: none;
+  color: var(--white);
+  margin: 1rem 0;
+  padding: 0.6rem 1rem;
+  border: 1px solid #253042;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.btn:hover {
+  background-color: var(--brown);
+  border: 1px solid var(--gray);
+}
+
+.btn:active {
+  top: 2px;
+  color: #fff;
+}
+
+main h2 {
+  text-align: center;
+}
+

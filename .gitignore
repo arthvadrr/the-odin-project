@@ -1,0 +1,5 @@
+//nothin' to see here
+node_modules
+.DS_store
+.idea
+.env
