@@ -118,7 +118,7 @@ nav .inner {
 }
 
 nav .inner a {
-  margin-left: 1rem;
+  margin: 0 1rem;
   font-size: 1rem;
 }
 
@@ -127,7 +127,8 @@ nav .inner ul {
   list-style: none;
 }
 
-nav .logo {
+
+nav .logo img {
   filter: drop-shadow(0 0 2rem #fff);
   animation: glow 15s infinite linear;
 }
@@ -171,6 +172,7 @@ nav ul {
 
 .col {
   width: 100%;
+  padding: 1rem;
 }
 
 .spacer {
@@ -179,32 +181,71 @@ nav ul {
 }
 
 .hero-img {
-  height: 300px;
+  position: relative;
+  height: 400px;
   width: 100%;
   background-size: cover;
   background-image: url("img/fields.jpg");
   border-radius: 1rem;
   box-shadow: var(--bs);
+  overflow: hidden;
+}
+
+#tractor-animation {
+  background-image: url("img/tractor-animation.webp");
+  background-size: contain;
+  background-repeat: no-repeat;
+  height: 150px;
+  position: absolute;
+  left: -50%;
+  bottom: 2.5rem;
+  animation: plow 35s infinite linear;
+  filter: saturate(0.6);
+  transform: rotate(-50deg);
+  transform-origin: bottom 10px left 1px;
+}
+
+@keyframes plow {
+  0% {
+    left: -45%;
+    transform: rotate(0deg);
+    bottom: 1.5rem;
+  }
+
+  19% {left: -10%; bottom: 1.5rem; transform: rotate(0deg);}
+  20% {bottom: 3rem; transform: rotate(-40deg);}
+  21% {transform: rotate(-60deg);}
+  25% {transform: rotate(-90deg);}
+  26% {left: 20%; transform: rotate(-78deg);}
+  29% {bottom: 2.5rem; transform: rotate(-55deg);}
+  30% {left: 44%;bottom: 1rem; transform: rotate(0deg)}
+
+  100% {
+    left: 100%;
+    transform: rotate(0deg);
+    bottom: 1rem; 
+  }
 }
 
 
 .btn {
-  display: block;
+  display: inline-block;
   position: relative;
   background-color: var(--light-blue);
   text-decoration: none;
   color: var(--white);
-  width: 13rem;
   margin: 1rem 0;
   padding: 0.6rem 1rem;
   border: 1px solid #253042;
   border-radius: 6px;
   font-size: 1rem;
+  box-shadow: var(--bs)
 }
 
 .btn:hover {
   background-color: var(--brown);
   border: 1px solid var(--gray);
+  box-shadow: none;
 }
 
 .btn:active {
@@ -311,7 +352,6 @@ blockquote p {
   letter-spacing: -1px;
   font-weight: 700;
   color: #333333;
-  filter: drop-shadow(2px 2px #ccc);
   z-index: 1;
 }
 
@@ -329,3 +369,4 @@ blockquote p:before {
 figure figcaption {
   padding: 2rem;
 }
+

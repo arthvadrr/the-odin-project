@@ -3,14 +3,14 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Website</title>
+    <title>Arth's Tractor Supply and Chicken Feed</title>
     <link rel="stylesheet" href="./styles.css">
     <link rel="icon" href="./favicon.ico" type="image/x-icon">
   </head>
   <body>
     <nav class="outer blue">
       <div class="inner">
-        <img class="logo" src="img/ds.png" alt="site-logo" />
+        <a class="logo" href="https://github.com/javabryan"><img src="img/ds.png" alt="site-logo" /></a>
         <ul>
           <li><a href="#">Home</a></li>
           <li><a href="#">About</a></li>
@@ -24,13 +24,14 @@
         <section class="hero">
           <div class="hero-inner">
             <div class="col">
-              <h1>Arth's Tractor Supply and Chicken Feed</h1>
+              <h1>Arth's Tractor Supply and Chicken Feed 🐔</h1>
               <p>Need a tractor? 🚜 Boy do we have the right tractor fer u. Just come on down to this hurr tractor supply store and git what yah need! Git err done!</p>
               <a class="btn" href="#special-offers">View our special offers!</a>
             </div>
-            <div class="spacer"></div>
             <div class="col">
-              <div class="hero-img"></div>
+              <div class="hero-img">
+                <img id ="tractor-animation" src="img/tractor-animation.webp"/>
+              </div>
             </div>
           </div>
         </section>
@@ -39,7 +40,7 @@
 
     <main>
       <section class="cards outer">
-        <div class="inner nopadding">
+        <div class="inner">
 
           <h2 id="special-offers">Special Offers</h2>
 
@@ -50,7 +51,7 @@
             </div>
             <div class="card-container">
               <div class="card-img"></div>
-              <p>Discounts on agricultural equipment!</p>
+              <p>Discounts on all dem chickens!</p>
             </div>
             <div class="card-container">
               <div class="card-img"></div>
@@ -73,13 +74,21 @@
           </figure>
         </section>
 
-        <section class="call-to-action"></section>
+        <section class="call-to-action outer">
+          <div class="inner">
+            <div class="cta">
+              <h2>This week only!</h2>
+              <p>We ordered too much chicken feed, it all has to go! We got feed comin' out our ears! Its in my socks! 90% off!</p>
+              <a class="btn" href="#">Order now!</a>
+            </div>
+          </div>
+        </section>
 
       </div>
     </main>
 
     <footer class="outer gray">
-      <div class="copyright-info">Copyright © 2069 Arth's Tractor Supply</div>
+      <div class="copyright-info">Copyright © 2069 Arth's Tractor Supply and Chicken Feed</div>
     </footer>
 	<script src="index.js"></script>
   </body>
