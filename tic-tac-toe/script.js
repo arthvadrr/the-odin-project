@@ -20,6 +20,7 @@ const init = () => {
 
       for (let b = 0; b < 3; b++) {
         const square = document.createElement('div');
+        square.addEventListener("click", onClick_Square);
         square.setAttribute("data-id", "0");
         square.classList.add("square");
         boardElements[a].push(square);
@@ -63,7 +64,9 @@ const init = () => {
         let currentPos = tryDir[0]([x, y]);
 
         for (let i = 0; i < winLength - 1; i++) {
-          if (boardElements?.[currentPos[0]]?.[currentPos[1]].getAttribute("data-id") === dataID) {
+          const ele = boardElements?.[currentPos[0]]?.[currentPos[1]];
+          if (!ele) continue;
+          if (ele.getAttribute("data-id") === dataID) {
             count++;
             currentPos = tryDir[0]([currentPos[0], currentPos[1]]);
           }  
@@ -99,7 +102,8 @@ const init = () => {
 
   const setDataID = (ele, sign) => ele.setAttribute('data-id', sign);
 
-  const computerMove = e => {
+  //get random empty element and mark it
+  const computerMove = () => {
     const empties = [];
     let pos;
 
@@ -113,18 +117,19 @@ const init = () => {
     .map(pos => ({ pos, sort: Math.random() }))
     .sort((a, b) => a.sort - b.sort)
     .map(({ pos }) => pos);
-    
     pos = shuffledEmpties[0];
-    setDataID(boardElements[pos[0]][pos[1]]);
+    console.log(`pos:${pos}`);
+    console.log(shuffledEmpties);
+    setDataID(boardElements[pos[0]][pos[1]], computerSign);
   }
-  
+
   const onClick_Square = (e) => {
     setDataID(e.target, playerSign);
-    computerMove(e);
+    computerMove();
+    console.log(hasWinner());
   }
 
   createNewBoard();
-  console.log(hasWinner());
 }
 
 init();
