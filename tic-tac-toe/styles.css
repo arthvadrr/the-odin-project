@@ -14,16 +14,16 @@
   --bs: 10px 10px 0 rgba(0,0,0,0.2), 0 3px 6px rgba(0,0,0,0.5);
 }
 
-@font-face {
-  font-family: 'SecularOne';
+/* @font-face {
+  font-family: 'Secular One';
   src: url('./inc/SecularOne-Regular.ttf') format('truetype');
   font-style: normal;
-}
+} */
 
 html,
 body {
   background-color: #1c1f25;
-  font-family: SecularOne;
+  font-family: 'Secular One', sans-serif;
   color: var(--text);
 }
 
@@ -78,7 +78,7 @@ button {
   border-radius: 4px;
   box-shadow: 0 5px 0 rgba(0, 0, 0, 0.1);
   background-color: #ebe0a6;
-  font-family: SecularOne;
+  font-family: 'Secular One', sans-serif;
   font-size: 1.4rem;
   font-weight: 300;
   transition: all 80ms linear;
