@@ -10,6 +10,7 @@ const init = () => {
   let difficulty = 1;
   let boardSize = 3;
   let winLength = 3;
+  let currentLevel = 1;
   let $boardElements;
 
   // fix for input caching
@@ -58,8 +59,15 @@ const init = () => {
   }
 
   const deleteBoard = () => {
-    document.getElementById('game-alert').remove();
-    document.getElementById('board').remove();
+    const arr = [
+      document.getElementById('game-alert'),
+      document.getElementById('board'),
+      document.getElementById('quit'),
+      document.getElementById('next-level'),
+      document.getElementById('level-view')
+    ];
+
+    arr.forEach(e => {if (e) e.remove()});
   }
   
   const resetGame = e => {
@@ -71,6 +79,10 @@ const init = () => {
 
     if (quit_confirm) {
       $boardElements = [];
+      difficulty = 1;
+      boardSize = 3;
+      winLength = 3;
+      currentLevel = 1;
       $section_options.classList.remove('display-none');
       e.target.remove();
       deleteBoard();
@@ -81,19 +93,42 @@ const init = () => {
     if (s) s.removeEventListener("click", onClick_Square);
   }));
   
-  const createNewBoard = () => {
+  const createNewBoard = (nextLevel) => {
     $boardElements = [];
+
     oninput_changeDifficulty();
     oninput_changeMarker();
-    console.log($boardElements);
+
     const $div_board = document.createElement('div');
     const $button_quit = document.createElement('button');
     const $div_gameAlert = document.createElement('div');
-    $div_gameAlert.setAttribute('id', 'game-alert');
-    $div_gameAlert.innerHTML = `Get <span class='win-length'>${winLength}</span> in a row to win.`;
-    $div_board.setAttribute('id', 'board');
+    const $button_nextLevel = document.createElement('button');
+    const $span_levelView = document.createElement('span');
+    $span_levelView.textContent = `Level ${currentLevel}`;
+    $span_levelView.setAttribute('id', 'level-view');
+    
+    $button_nextLevel.addEventListener("click", startNextLevel);
+    $button_quit.addEventListener("click", resetGame);
+    
 
     //adjust difficulty for board size
+    switch (currentLevel) {
+      case 2: boardSize = 4; difficulty = 1; winLength = 4; break;
+      case 3: boardSize = 5; difficulty = 2; winLength = 4; break;
+      case 4: boardSize = 3; difficulty = 2; winLength = 3; break;
+      case 5: boardSize = 4; difficulty = 2; winLength = 4; break;
+      case 6: boardSize = 5; difficulty = 3; winLength = 4; break;
+      case 7: boardSize = 6; difficulty = 3; winLength = 5; break;
+    }
+
+    $button_nextLevel.setAttribute('id', 'next-level');
+    $div_gameAlert.setAttribute('id', 'game-alert');
+    $div_board.setAttribute('id', 'board');
+    $button_nextLevel.innerText = "Next level";
+    $button_nextLevel.classList.add("display-none");
+    $button_quit.innerText = "Quit";
+    $div_gameAlert.innerHTML = `Get <span class='win-length'>${winLength}</span> in a row to win.`;
+
     switch (boardSize) {
       case 4: difficulty = difficulty + 1; break;
       case 5: difficulty = difficulty + 1; break;
@@ -122,11 +157,11 @@ const init = () => {
     }
 
     $button_quit.setAttribute("id", "quit");
-    $button_quit.innerText = "Quit";
-    $button_quit.addEventListener("click", resetGame);
+    $section_boardContainer.appendChild($span_levelView);
     $section_boardContainer.appendChild($div_gameAlert);
     $section_boardContainer.appendChild($div_board);
     $section_boardContainer.appendChild($button_quit);
+    $section_boardContainer.appendChild($button_nextLevel);
   }
 
   const hasWinner = () => {
@@ -262,14 +297,38 @@ const init = () => {
 
   const gameOver = (winner) => {
     const $div_gameAlert = document.getElementById('game-alert');
+    const $button_nextLevel = document.getElementById('next-level');
 
     switch (winner) {
-      case "0" : $div_gameAlert.innerText = "Tie game."; break;
-      case "1" : $div_gameAlert.innerText = "You win!"; break;
+      case "0" : 
+      $div_gameAlert.innerText = "Tie game.";
+      $button_nextLevel.textContent = "Try again." 
+      $button_nextLevel.classList.remove('display-none'); 
+      break;
+      case "1" : $div_gameAlert.innerText = "You win!"; $button_nextLevel.classList.remove('display-none'); break;
       case "2" : $div_gameAlert.innerText = "You lose.";
     } 
+
     removeEventListeners();
     highlightPath();
+  }
+
+  const startNextLevel = () => {
+    const $difficulty = document.getElementById('difficulty');
+    const $boardSize = document.getElementById('board-size');
+
+    if (hasWinner() !== "0") {
+      currentLevel++;
+    } else {
+      document.getElementById('next-level').innerText = "Tie. try level again.";
+    }
+
+
+    $boardElements = [];
+    $section_options.classList.remove('display-none');
+    $section_options.classList.add("display-none");
+    deleteBoard();
+    createNewBoard();
   }
 
   //TODO create next level!
@@ -281,11 +340,8 @@ const init = () => {
   });
 
   $input_difficulty.addEventListener("input", oninput_changeDifficulty);
-  
   $input_markers.forEach(e => e.addEventListener("input", oninput_changeMarker))
-
   $input_boardSize.addEventListener("input", oninput_changeBoardSize);
-
 }
 
 init();
