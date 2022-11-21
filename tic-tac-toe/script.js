@@ -4,16 +4,34 @@ const init = () => {
   const $section_options = document.getElementById('options');
   const $input_difficulty = document.getElementById('difficulty');
   const $input_markers = document.querySelectorAll('input[name="marker"]');
-  console.log($input_markers.value);
+  const $input_boardSize = document.getElementById('board-size');
+
   let winnerPath = [];
-  let $boardElements = [[],[],[]];
   let difficulty = 1;
-  
-  //options
-  const winLength = 3;
+  let boardSize = 3;
+  let winLength = 3;
+  let $boardElements;
+
+  // fix for input caching
+  $input_boardSize.value = "3";
+  $input_difficulty.value = difficulty.toString();
 
   const oninput_changeBoardSize = () => {
+    const $span_boardSizeText = document.getElementById("board-size-text");
+    const $span_amountToWin = document.getElementById("amount-to-win");
+    const val = $input_boardSize.value;
+    $span_boardSizeText.innerText = `${val}x${val}`;
+    boardSize = parseInt(val);
     
+    switch (val) {
+      case "3": $span_amountToWin.innerText = "3"; winLength = 3; break;
+      case "4": $span_amountToWin.innerText = "4"; winLength = 4; break;
+      case "5": $span_amountToWin.innerText = "5"; winLength = 5; break;
+      case "6": $span_amountToWin.innerText = "5"; winLength = 5; break;
+      case "7": $span_amountToWin.innerText = "6"; winLength = 6; break;
+      case "8": $span_amountToWin.innerText = "6"; winLength = 6; break;
+      case "9": $span_amountToWin.innerText = "7"; winLength = 7; break;
+    }
   }
 
   const oninput_changeMarker = () => {
@@ -24,18 +42,13 @@ const init = () => {
     const $style = document.createElement("style");
     $style.setAttribute("id", "marker-style");
     $style.innerText = `.square[data-id='1']:before {content: '${$checked.value}' !important}`;
-    console.log($style);
     $main.prepend($style);
   }
-
-  //prevents reloading bug where no style is printed because of radio cache
-  oninput_changeMarker();
 
   const oninput_changeDifficulty = () => {
     const $span_difficultySetting = document.getElementById("difficulty-setting");
     const val = $input_difficulty.value;
     difficulty = parseInt(val);
-    console.log($span_difficultySetting)
     
     switch (val) {
       case "1": $span_difficultySetting.innerText = "Normal"; break;
@@ -43,9 +56,6 @@ const init = () => {
       case "3": $span_difficultySetting.innerText = "Insane"; break;
     }
   }
-
-  //prevents reloading bug where difficulty is preset because of input cache
-  oninput_changeDifficulty();
 
   const deleteBoard = () => {
     document.getElementById('game-alert').remove();
@@ -60,7 +70,7 @@ const init = () => {
     }
 
     if (quit_confirm) {
-      $boardElements = [[], [], []];
+      $boardElements = [];
       $section_options.classList.remove('display-none');
       e.target.remove();
       deleteBoard();
@@ -72,25 +82,43 @@ const init = () => {
   }));
   
   const createNewBoard = () => {
+    $boardElements = [];
+    oninput_changeDifficulty();
+    oninput_changeMarker();
+    console.log($boardElements);
     const $div_board = document.createElement('div');
     const $button_quit = document.createElement('button');
     const $div_gameAlert = document.createElement('div');
     $div_gameAlert.setAttribute('id', 'game-alert');
+    $div_gameAlert.innerHTML = `Get <span class='win-length'>${winLength}</span> in a row to win.`;
     $div_board.setAttribute('id', 'board');
-    
-    for (let a = 0; a < $boardElements.length; a++) {
+
+    //adjust difficulty for board size
+    switch (boardSize) {
+      case 4: difficulty = difficulty + 1; break;
+      case 5: difficulty = difficulty + 1; break;
+      case 6: difficulty = difficulty + 2; break;
+      case 7: difficulty = difficulty + 2; break;
+      case 8: difficulty = difficulty + 3; break;
+      case 9: difficulty = difficulty + 4; break;
+    }
+
+
+    for (let a = 0; a < boardSize; a++) {
       const row = document.createElement('div');
+      const matrixRow = [];
       row.setAttribute('id', `row-${a}`)
       $div_board.appendChild(row);
 
-      for (let b = 0; b < 3; b++) {
+      for (let b = 0; b < boardSize; b++) {
         const square = document.createElement('div');
         square.addEventListener("click", onClick_Square);
         square.setAttribute("data-id", "0");
         square.classList.add("square");
-        $boardElements[a].push(square);
+        matrixRow.push(square);
         row.appendChild(square);
       }
+      $boardElements.push(matrixRow);
     }
 
     $button_quit.setAttribute("id", "quit");
@@ -150,7 +178,7 @@ const init = () => {
           winnerPath = [];
           winnerPath.push([x, y]);
           dirPath.forEach(p => winnerPath.push(p));
-          console.log(`winnerPath: ${winnerPath}`)
+
           return true;
         }
 
@@ -177,8 +205,8 @@ const init = () => {
         }
       }
     }
-
-    if (xAmount + oAmount === 9) winner = "0";
+  
+    if (xAmount + oAmount === (boardSize * boardSize)) winner = "0";
 
     return winner;
   }
@@ -225,23 +253,26 @@ const init = () => {
   }
 
   const highlightPath = () => {
-    console.log(winnerPath)
-      winnerPath.forEach(i => {
-      $boardElements[i[0]][i[1]].classList.add('winner-path')
-    })
+    if (hasWinner() !== "0") {
+        winnerPath.forEach(i => {
+        $boardElements[i[0]][i[1]].classList.add('winner-path')
+      });
+    }
   }
 
   const gameOver = (winner) => {
     const $div_gameAlert = document.getElementById('game-alert');
 
     switch (winner) {
-      case "0" : $div_gameAlert.innerText = "The game has ended in a tie."; break;
+      case "0" : $div_gameAlert.innerText = "Tie game."; break;
       case "1" : $div_gameAlert.innerText = "You win!"; break;
       case "2" : $div_gameAlert.innerText = "You lose.";
     } 
     removeEventListeners();
     highlightPath();
   }
+
+  //TODO create next level!
 
 
   $button_start.addEventListener("click", () => {
@@ -252,6 +283,9 @@ const init = () => {
   $input_difficulty.addEventListener("input", oninput_changeDifficulty);
   
   $input_markers.forEach(e => e.addEventListener("input", oninput_changeMarker))
+
+  $input_boardSize.addEventListener("input", oninput_changeBoardSize);
+
 }
 
 init();
