@@ -36,3 +36,7 @@ main {
 .display-none {
   display: none;
 }
+
+.winner-path {
+  background-color: red;
+}

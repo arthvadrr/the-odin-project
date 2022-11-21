@@ -2,21 +2,31 @@ const init = () => {
   const $section_boardContainer = document.getElementById('board-container');
   const $button_start = document.getElementById('start');
   const $section_options = document.getElementById('options');
-  const $boardElements = [[],[],[]];
-  
-  let playerSign = 1;
-  let computerSign = 2;
+  const $div_alert = document.getElementById('alert');
+  let winnerPath = [];
+  let $boardElements = [[],[],[]];
   
   //options
   const winLength = 3;
   
-  const deleteBoard = () => document.getElementById('board').remove();
+  const deleteBoard = () => {
+    document.getElementById('game-alert').remove();
+    document.getElementById('board').remove();
+  }
   
   const resetGame = e => {
-    $section_options.classList.remove('display-none');
-    e.target.remove()
-    deleteBoard();
+    let quit_confirm = true;
 
+    if (!hasWinner()) {
+      quit_confirm = confirm('Are you sure you want to quit?');
+    }
+
+    if (quit_confirm) {
+      $boardElements = [[], [], []];
+      $section_options.classList.remove('display-none');
+      e.target.remove();
+      deleteBoard();
+    }
   }
 
   const removeEventListeners = () => $boardElements.forEach(r => r.forEach(s => {
@@ -26,6 +36,8 @@ const init = () => {
   const createNewBoard = () => {
     const $div_board = document.createElement('div');
     const $button_quit = document.createElement('button');
+    const $div_gameAlert = document.createElement('div');
+    $div_gameAlert.setAttribute('id', 'game-alert');
     $div_board.setAttribute('id', 'board');
     
     for (let a = 0; a < $boardElements.length; a++) {
@@ -46,7 +58,8 @@ const init = () => {
     $button_quit.setAttribute("id", "quit");
     $button_quit.innerText = "Quit";
     $button_quit.addEventListener("click", resetGame);
-    $section_boardContainer.appendChild($div_board)
+    $section_boardContainer.appendChild($div_gameAlert);
+    $section_boardContainer.appendChild($div_board);
     $section_boardContainer.appendChild($button_quit);
   }
 
@@ -68,6 +81,7 @@ const init = () => {
     const isInline = (x, y, dataID) => {
       const tryDir = [];
       let count = 1;
+      let dirPath = [];
 
       const getDirs = () => {
         dirArr.forEach(f => {
@@ -84,14 +98,25 @@ const init = () => {
 
         for (let i = 0; i < winLength - 1; i++) {
           const ele = $boardElements?.[currentPos[0]]?.[currentPos[1]];
+          
           if (!ele) continue;
+
           if (ele.getAttribute("data-id") === dataID) {
+            dirPath.push(currentPos);
             count++;
             currentPos = tryDir[0]([currentPos[0], currentPos[1]]);
           }  
         }
 
-        if (count === winLength) return true;
+        if (count === winLength) {
+          winnerPath = [];
+          winnerPath.push([x, y]);
+          dirPath.forEach(p => winnerPath.push(p));
+          console.log(`winnerPath: ${winnerPath}`)
+          return true;
+        }
+
+        dirPath = [];
         count = 1;
         tryDir.shift();
       }
@@ -140,27 +165,44 @@ const init = () => {
       .map(({ pos }) => pos);
       pos = shuffledEmpties[0];
       $boardElements[pos[0]][pos[1]].removeEventListener("click", onClick_Square);
-      setDataID($boardElements[pos[0]][pos[1]], computerSign);
+      setDataID($boardElements[pos[0]][pos[1]], 2);
     }
   }
 
   const onClick_Square = (e) => {
     e.target.removeEventListener("click", onClick_Square);
-      setDataID(e.target, playerSign);
-      computerMove();
-      
-      const winner = hasWinner();
+    setDataID(e.target, 1);
 
+      // Call hasWinner for each move
+      if (!hasWinner()) computerMove();
+
+      const winner = hasWinner();
       if (winner) {
-        removeEventListeners();
-        //displayWinner();
-        //createResetButton();
+        gameOver(winner);
       }
   }
 
+  const highlightPath = () => {
+    console.log(winnerPath)
+      winnerPath.forEach(i => {
+      $boardElements[i[0]][i[1]].classList.add('winner-path')
+    })
+  }
 
-  $button_start.addEventListener("click", e => {
-    e.target.classList.add("display-none");
+  const gameOver = (winner) => {
+    const $div_gameAlert = document.getElementById('game-alert');
+
+    switch (winner) {
+      case "0" : $div_gameAlert.innerText = "The game has ended in a tie."; break;
+      case "1" : $div_gameAlert.innerText = "You win!"; break;
+      case "2" : $div_gameAlert.innerText = "You lose.";
+    } 
+    removeEventListeners();
+    highlightPath();
+  }
+
+
+  $button_start.addEventListener("click", () => {
     $section_options.classList.add("display-none");
     createNewBoard();
   })
