@@ -4,18 +4,33 @@ const init = () => {
   const $section_options = document.getElementById('options');
   const $input_difficulty = document.getElementById('difficulty');
   const $input_markers = document.querySelectorAll('input[name="marker"]');
+  const $input_type = document.querySelectorAll('input[name="type"]');
   const $input_boardSize = document.getElementById('board-size');
+  const $settings_fieldset = document.querySelector('.settings-fieldset');
 
   let winnerPath = [];
   let difficulty = 1;
   let boardSize = 3;
   let winLength = 3;
   let currentLevel = 1;
+  let gameType = 0;
   let $boardElements;
 
   // fix for input caching
   $input_boardSize.value = "3";
   $input_difficulty.value = difficulty.toString();
+
+  const oninput_changeType = () => {
+    gameType = document.querySelector('input[name="type"]:checked').value;
+    console.log(gameType);
+    
+    if (gameType === "classic") {
+      $settings_fieldset.classList.remove('display-none');
+    } else {
+      $settings_fieldset.classList.add('display-none');
+    }
+  }
+  oninput_changeType();
 
   const oninput_changeBoardSize = () => {
     const $span_boardSizeText = document.getElementById("board-size-text");
@@ -34,12 +49,19 @@ const init = () => {
       case "9": $span_amountToWin.innerText = "7"; winLength = 7; break;
     }
   }
+  oninput_changeBoardSize();
 
   const oninput_changeMarker = () => {
     if (document.getElementById("marker-style")) document.getElementById("marker-style").remove(); 
 
     const $main = document.querySelector('main');
-    const $checked = document.querySelector('input[name="marker"]:checked');
+    let $checked = document.querySelector('input[name="marker"]:checked');
+
+    if (!$checked) {
+      $checked = document.getElementById('marker');
+      $checked.checked = true;
+    }
+
     const $style = document.createElement("style");
     $style.setAttribute("id", "marker-style");
     $style.innerText = `.square[data-id='1']:before {content: '${$checked.value}' !important}`;
@@ -96,8 +118,13 @@ const init = () => {
   const createNewBoard = (nextLevel) => {
     $boardElements = [];
 
-    oninput_changeDifficulty();
     oninput_changeMarker();
+
+    if (gameType === "progressive" && currentLevel === 1) {
+      boardSize = 3;
+      difficulty = 1;
+      winLength = 3;
+    }
 
     const $div_board = document.createElement('div');
     const $button_quit = document.createElement('button');
@@ -112,13 +139,18 @@ const init = () => {
     
 
     //adjust difficulty for board size
-    switch (currentLevel) {
-      case 2: boardSize = 4; difficulty = 1; winLength = 4; break;
-      case 3: boardSize = 5; difficulty = 2; winLength = 4; break;
-      case 4: boardSize = 3; difficulty = 2; winLength = 3; break;
-      case 5: boardSize = 4; difficulty = 2; winLength = 4; break;
-      case 6: boardSize = 5; difficulty = 3; winLength = 4; break;
-      case 7: boardSize = 6; difficulty = 3; winLength = 5; break;
+    if (gameType === 'progressive') {
+      switch (currentLevel) {
+        case 2: boardSize = 4; difficulty = 1; winLength = 3; break;
+        case 3: boardSize = 5; difficulty = 1; winLength = 4; break;
+        case 4: boardSize = 4; difficulty = 1; winLength = 4; break;
+        case 5: boardSize = 5; difficulty = 2; winLength = 4; break;
+        case 6: boardSize = 3; difficulty = 2; winLength = 3; break;
+        case 7: boardSize = 4; difficulty = 2; winLength = 3; break;
+        case 8: boardSize = 5; difficulty = 3; winLength = 3; break;
+        case 9: boardSize = 6; difficulty = 3; winLength = 5; break;
+        case 10: alert ('you win!');
+      }
     }
 
     $button_nextLevel.setAttribute('id', 'next-level');
@@ -301,12 +333,20 @@ const init = () => {
 
     switch (winner) {
       case "0" : 
-      $div_gameAlert.innerText = "Tie game.";
-      $button_nextLevel.textContent = "Try again." 
-      $button_nextLevel.classList.remove('display-none'); 
-      break;
-      case "1" : $div_gameAlert.innerText = "You win!"; $button_nextLevel.classList.remove('display-none'); break;
-      case "2" : $div_gameAlert.innerText = "You lose.";
+        $div_gameAlert.innerText = "Tie game.";
+        $button_nextLevel.classList.add('try-again');
+        $button_nextLevel.textContent = "Try again." 
+        $button_nextLevel.classList.remove('display-none'); 
+        break;
+      case "1" :
+        $div_gameAlert.classList.add('win'); 
+        $div_gameAlert.innerText = "You win!";
+        if (gameType === "progressive") $button_nextLevel.classList.remove('display-none'); 
+        break;
+      case "2" : {
+        $div_gameAlert.classList.add('loss');
+        $div_gameAlert.innerText = "You lose."
+      };
     } 
 
     removeEventListeners();
@@ -316,6 +356,11 @@ const init = () => {
   const startNextLevel = () => {
     const $difficulty = document.getElementById('difficulty');
     const $boardSize = document.getElementById('board-size');
+    const $button_nextLevel = document.getElementById('next-level');
+
+    if ($button_nextLevel) {
+      $button_nextLevel.classList.remove('try-again');
+    }
 
     if (hasWinner() !== "0") {
       currentLevel++;
@@ -335,11 +380,16 @@ const init = () => {
 
 
   $button_start.addEventListener("click", () => {
+    //bugs? idk
+    oninput_changeBoardSize();
+    oninput_changeDifficulty();
+
     $section_options.classList.add("display-none");
     createNewBoard();
   });
 
   $input_difficulty.addEventListener("input", oninput_changeDifficulty);
+  $input_type.forEach(e => e.addEventListener("input", oninput_changeType));
   $input_markers.forEach(e => e.addEventListener("input", oninput_changeMarker))
   $input_boardSize.addEventListener("input", oninput_changeBoardSize);
 }

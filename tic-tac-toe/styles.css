@@ -1,7 +1,111 @@
+* {
+  box-sizing: border-box;
+  transition: all 50ms linear;
+}
+
+:root {
+  --gray: #B9BCC1;
+  --light-gray: #f0f0f0;
+  --text: #111;
+  --fs-text: 1.13rem; /* 20px */
+  --fs-h1: 2.50rem;
+  --fs-h2: 2rem;
+  --fs-quote: 1.8rem;
+  --bs: 10px 10px 0 rgba(0,0,0,0.2), 0 3px 6px rgba(0,0,0,0.5);
+}
+
+@font-face {
+  font-family: 'SecularOne';
+  src: url('./inc/SecularOne-Regular.ttf') format('truetype');
+  font-style: normal;
+}
+
+html,
+body {
+  background-color: #1c1f25;
+  font-family: SecularOne;
+  color: var(--text);
+}
+
 main {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+h1 {
+  font-size: 2.5rem;
+  filter: drop-shadow(2px 2px #999);
+  color: rgb(255, 255, 255);
+}
+
+fieldset {
+  min-width: 25rem;
+  padding-bottom: 1.3rem;
+  margin-bottom: 2rem;
+  background-color: #f1f1f1;
+  border-radius: 8px;
+  border: 4px double #000;
+}
+
+fieldset:nth-of-type(1) legend {background-color: #ddfde7;}
+fieldset:nth-of-type(2) legend {background-color: #fae9cf;}
+fieldset:nth-of-type(3) legend {background-color: #f9d8fd;}
+
+
+#marker-select {
+  display:flex;
+}
+
+legend {
+  background-color: #fff;
+  border: 1px solid #000;
+  border-radius: 4px;
+  padding: 0 0.5rem;
+  margin-bottom: 0.5rem;
+  font-size: 1.2rem;
+}
+
+label {
+  padding-right: 0.5rem;
+}
+
+button {
+  position: relative;
+  padding: 0.5rem;
+  margin-top: 2rem;
+  width: 100%;
+  border-radius: 4px;
+  box-shadow: 0 5px 0 rgba(0, 0, 0, 0.1);
+  background-color: #ebe0a6;
+  font-family: SecularOne;
+  font-size: 1.4rem;
+  font-weight: 300;
+  transition: all 80ms linear;
+  cursor: pointer;
+}
+
+button:hover,
+button:focus {
+  background-color: #ffec84;
+}
+
+button:active {
+  top: 2px;
+}
+
+#next-level:not(.try-again) {
+  padding: 2rem;
+  border: 4px solid rgb(89, 124, 122);
+  border-radius: 10px;
+  font-weight: 700;
+  background-image: linear-gradient(to right top, #7185f9, #58ff74, #67fff7, #ffdc68, #ff4fbb);
+}
+
+#next-level:hover,
+#next-level:focus {
+  transition: all 30s linear;
+  filter: hue-rotate(10000deg) saturate(1.2);
 }
 
 #board {
@@ -13,30 +117,75 @@ main {
   justify-content: center;
   align-items: center;
   position: relative;
-  height: 5rem;
-  width: 5rem;
+  height: 5.4rem;
+  width: 5.4rem;
   border: 2px solid #000;
+  background-color: rgb(227, 230, 233);
+  box-shadow: inset 1px 5px 0 rgba(0, 0, 0, 0.5);
+  transition: all 300ms ease-in-out;
+}
+
+.square[data-id='1'] {
+  background-color: rgb(213, 241, 230)
+}
+
+.square[data-id='2'] {
+  background-color: rgb(241, 225, 225)
 }
 
 .square[data-id='1']:before,
 .square[data-id='2']:before {
   content: '✘';
-  top: -0.35rem;
+  top: 0.02rem;
   position: relative;
   display: block;
   font-size: 3rem;
+  color: rgb(0, 117, 111);
 }
 
 .square[data-id='2']:before {
   content: '⚬';
-  top: -0.6rem;
+  top: 0rem;
   font-size: 5rem;
+  color: rgb(73, 0, 0);
 }
 
 .display-none {
   display: none;
 }
 
-.winner-path {
-  background-color: red;
+.square[data-id='1'].winner-path {
+  background-color: #BDF8D4;
+}
+
+.square[data-id='2'].winner-path {
+  background-color: #A82323;
+}
+
+#game-alert {
+  text-align: center;
+  border: 2px solid var(--gray);
+  border-radius: 4px;
+  background-color: var(--light-gray);
+  margin-bottom: 2rem;
+  padding: 0.5rem 0;
+}
+
+#game-alert.loss {
+  background-color: rgb(248, 189, 189);
+  border: 2px solid rgb(168, 35, 35);
+  color: rgb(95, 8, 8);
+}
+
+#game-alert.win {
+  background-color: rgb(189, 248, 212);
+  border: 2px solid rgb(35, 168, 42);
+  color: rgb(8, 95, 8);
+}
+
+#level-view {
+  display: block;
+  text-align: center;
+  color: #fff;
+  font-size: 1.4rem;
 }

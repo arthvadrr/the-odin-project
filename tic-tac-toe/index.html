@@ -35,7 +35,18 @@
             <label for="happy">☻</label>
           </div>
       </fieldset>
-      <fieldset>
+      <fieldset id="marker-select">
+        <legend>Game Type</legend>
+        <div>
+          <input type="radio" id="progressive" name="type" value="progressive" checked>
+          <label for="progressive">Progressive</label>
+        </div>
+        <div>
+          <input type="radio" id="classic" name="type" value="classic">
+          <label for="classic">Classic</label>
+        </div>
+    </fieldset>
+      <fieldset class="settings-fieldset display-none">
         <legend>Difficulty and Board Size</legend>
         <div>
           <input type="range" id="difficulty" name="difficulty" min="1" max="3" value="1">
