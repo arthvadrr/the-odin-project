@@ -2,13 +2,51 @@ const init = () => {
   const $section_boardContainer = document.getElementById('board-container');
   const $button_start = document.getElementById('start');
   const $section_options = document.getElementById('options');
-  const $div_alert = document.getElementById('alert');
+  const $input_difficulty = document.getElementById('difficulty');
+  const $input_markers = document.querySelectorAll('input[name="marker"]');
+  console.log($input_markers.value);
   let winnerPath = [];
   let $boardElements = [[],[],[]];
+  let difficulty = 1;
   
   //options
   const winLength = 3;
-  
+
+  const oninput_changeBoardSize = () => {
+    
+  }
+
+  const oninput_changeMarker = () => {
+    if (document.getElementById("marker-style")) document.getElementById("marker-style").remove(); 
+
+    const $main = document.querySelector('main');
+    const $checked = document.querySelector('input[name="marker"]:checked');
+    const $style = document.createElement("style");
+    $style.setAttribute("id", "marker-style");
+    $style.innerText = `.square[data-id='1']:before {content: '${$checked.value}' !important}`;
+    console.log($style);
+    $main.prepend($style);
+  }
+
+  //prevents reloading bug where no style is printed because of radio cache
+  oninput_changeMarker();
+
+  const oninput_changeDifficulty = () => {
+    const $span_difficultySetting = document.getElementById("difficulty-setting");
+    const val = $input_difficulty.value;
+    difficulty = parseInt(val);
+    console.log($span_difficultySetting)
+    
+    switch (val) {
+      case "1": $span_difficultySetting.innerText = "Normal"; break;
+      case "2": $span_difficultySetting.innerText = "Hard"; break;
+      case "3": $span_difficultySetting.innerText = "Insane"; break;
+    }
+  }
+
+  //prevents reloading bug where difficulty is preset because of input cache
+  oninput_changeDifficulty();
+
   const deleteBoard = () => {
     document.getElementById('game-alert').remove();
     document.getElementById('board').remove();
@@ -174,7 +212,11 @@ const init = () => {
     setDataID(e.target, 1);
 
       // Call hasWinner for each move
-      if (!hasWinner()) computerMove();
+      if (!hasWinner()) {
+        for (let i = 0; i < difficulty; i++) {
+          computerMove();
+        }
+      }
 
       const winner = hasWinner();
       if (winner) {
@@ -205,7 +247,11 @@ const init = () => {
   $button_start.addEventListener("click", () => {
     $section_options.classList.add("display-none");
     createNewBoard();
-  })
+  });
+
+  $input_difficulty.addEventListener("input", oninput_changeDifficulty);
+  
+  $input_markers.forEach(e => e.addEventListener("input", oninput_changeMarker))
 }
 
 init();
