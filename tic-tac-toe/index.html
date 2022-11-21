@@ -1,15 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tic Tac Toe Game</title>
-    <link rel="stylesheet" href="./styles.css">
-  </head>
-  <body>
-    <h1>Tic Tac Toe Game</h1>
-    <div id="state"></div>
-    <div id="board-container"></div>
-	<script src="script.js" type="text/javascript"></script>
-  </body>
+  <main>
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Tic Tac Toe</title>
+      <link rel="stylesheet" href="./styles.css">
+    </head>
+    <body>
+      <h1>Tic Tac Toe</h1>
+      
+      <noscript>Enable javascript to play this game.</noscript>
+
+      <section id="options">
+        <fieldset id="marker-select">
+          <legend>Select Your Marker</legend>
+          <div>
+            <input type="radio" id="marker" name="marker" value="✘" checked>
+            <label for="marker">✘</label>
+          </div>
+
+          <div>
+            <input type="radio" id="check" name="marker" value="✔">
+            <label for="check">✔</label>
+          </div>
+      
+          <div>
+            <input type="radio" id="knight" name="marker" value="☠">
+            <label for="knight">♘</label>
+          </div>
+      
+          <div>
+            <input type="radio" id="happy" name="marker" value="☻">
+            <label for="happy">☻</label>
+          </div>
+      </fieldset>
+      <fieldset>
+        <legend>Difficulty and Board Size</legend>
+        <div>
+          <input type="range" id="difficulty" name="difficulty" min="0" max="5">
+          <label for="volume">Difficulty (<span id="difficulty-setting">normal</span>)</label>
+        </div>
+        
+        <div>
+          <input type="range" id="cowbell" name="cowbell" 
+                 min="3" max="9" value="1" step="1">
+          <label for="cowbell">Board Size (<span id="amount-to-win">3</span> to win)</label>
+        </div>
+      </fieldset>
+      <button id="start">Start game</button>
+    </section>
+
+    <section class="game">
+      <div id="state"></div>
+      <div id="board-container"></div>
+    </section>
+
+    <script src="script.js" type="text/javascript"></script>
+    </body>
+  </main>
 </html>
