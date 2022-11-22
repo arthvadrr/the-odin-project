@@ -325,23 +325,23 @@ button:active {
   }
 
   #board.board-size-3 {
-    -webkit-transform: scale(1);
-        -ms-transform: scale(1);
-            transform: scale(1);
+    -webkit-transform: scale(1.5);
+        -ms-transform: scale(1.5);
+            transform: scale(1.5);
     margin: 4rem 0;
   }
 
   #board.board-size-4 {
-    -webkit-transform: scale(1);
-        -ms-transform: scale(1);
-            transform: scale(1);
+    -webkit-transform: scale(1.12);
+        -ms-transform: scale(1.12);
+            transform: scale(1.12);
     margin: 3rem 0;
   }
 
   #board.board-size-5 {
-    -webkit-transform: scale(0.85);
-        -ms-transform: scale(0.85);
-            transform: scale(0.85);
+    -webkit-transform: scale(0.92);
+        -ms-transform: scale(0.92);
+            transform: scale(0.92);
     margin: 0;
   }
 
@@ -360,16 +360,16 @@ button:active {
   }
 
   #board.board-size-8 {
-    -webkit-transform: scale(0.55);
-        -ms-transform: scale(0.55);
-            transform: scale(0.55);
+    -webkit-transform: scale(0.57);
+        -ms-transform: scale(0.57);
+            transform: scale(0.57);
     margin: -7rem 0;
   }
 
   #board.board-size-9 {
-    -webkit-transform: scale(0.5);
-        -ms-transform: scale(0.5);
-            transform: scale(0.5);
+    -webkit-transform: scale(0.52);
+        -ms-transform: scale(0.52);
+            transform: scale(0.52);
     margin: -10rem 0;
   }
 }
