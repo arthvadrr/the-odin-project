@@ -207,7 +207,8 @@ button:active {
   }
 
   #options {
-    transform: scale(0.95);
+    transform: scale(0.8);
+    font-size: 1.5rem;
   }
 
   #board.board-size-3 {
