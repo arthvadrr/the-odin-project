@@ -131,12 +131,15 @@ const init = () => {
     const $div_gameAlert = document.createElement('div');
     const $button_nextLevel = document.createElement('button');
     const $span_levelView = document.createElement('span');
-    $span_levelView.textContent = `Level ${currentLevel}`;
+    if (gameType === "progressive") {
+      $span_levelView.textContent = `Level ${currentLevel}`;
+    }
     $span_levelView.setAttribute('id', 'level-view');
     
     $button_nextLevel.addEventListener("click", startNextLevel);
     $button_quit.addEventListener("click", resetGame);
     
+    $div_board.classList.add(`board-size-${boardSize}`);
 
     //adjust difficulty for board size
     if (gameType === 'progressive') {

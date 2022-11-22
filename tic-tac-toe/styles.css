@@ -108,8 +108,17 @@ button:active {
   filter: hue-rotate(10000deg) saturate(1.2);
 }
 
+#board-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 #board {
   display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 95vw;
 }
 
 .square {
@@ -167,8 +176,10 @@ button:active {
   border: 2px solid var(--gray);
   border-radius: 4px;
   background-color: var(--light-gray);
+  margin: 0;
   margin-bottom: 2rem;
   padding: 0.5rem 0;
+  width: 100%;
 }
 
 #game-alert.loss {
@@ -188,4 +199,45 @@ button:active {
   text-align: center;
   color: #fff;
   font-size: 1.4rem;
+}
+
+@media screen and (max-width: 810px) {
+  html {
+    transform: scale(0.85)
+  }
+
+  #board.board-size-3 {
+    transform: scale(1.4);
+    margin: 4rem 0;
+  }
+
+  #board.board-size-4 {
+    transform: scale(1.2);
+    margin: 3rem 0;
+  }
+
+  #board.board-size-5 {
+    transform: scale(0.9);
+    margin: 0;
+  }
+
+  #board.board-size-6 {
+    transform: scale(0.8);
+    margin: -2rem;
+  }
+
+  #board.board-size-7 {
+    transform: scale(0.7);
+    margin: -4rem 0;
+  }
+
+  #board.board-size-8 {
+    transform: scale(0.6);
+    margin: -7rem 0;
+  }
+
+  #board.board-size-9 {
+    transform: scale(0.55);
+    margin: -10rem 0;
+  }
 }
