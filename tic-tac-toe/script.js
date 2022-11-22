@@ -14,6 +14,7 @@ const init = () => {
   let winLength = 3;
   let currentLevel = 1;
   let gameType = 0;
+  let lives = 3;
   let $boardElements;
 
   // fix for input caching
@@ -86,7 +87,8 @@ const init = () => {
       document.getElementById('board'),
       document.getElementById('quit'),
       document.getElementById('next-level'),
-      document.getElementById('level-view')
+      document.getElementById('level-view'),
+      document.getElementById('life-bar')
     ];
 
     arr.forEach(e => {if (e) e.remove()});
@@ -104,6 +106,7 @@ const init = () => {
       difficulty = 1;
       boardSize = 3;
       winLength = 3;
+      lives = 3;
       currentLevel = 1;
       $section_options.classList.remove('display-none');
       e.target.remove();
@@ -117,7 +120,6 @@ const init = () => {
   
   const createNewBoard = (nextLevel) => {
     $boardElements = [];
-
     oninput_changeMarker();
 
     if (gameType === "progressive" && currentLevel === 1) {
@@ -131,11 +133,24 @@ const init = () => {
     const $div_gameAlert = document.createElement('div');
     const $button_nextLevel = document.createElement('button');
     const $span_levelView = document.createElement('span');
+    
+    //Progressive mode board addons
     if (gameType === "progressive") {
+      const $div_lifeBar = document.createElement('div');
+      $div_lifeBar.setAttribute('id', 'life-bar');
+
+      // Add life bar
+      for (let i = 0; i < lives; i++) {
+        const $div_life = document.createElement('div');
+        $div_life.classList.add('life');
+        $div_lifeBar.appendChild($div_life);
+      }
+
+      $section_boardContainer.appendChild($div_lifeBar);
       $span_levelView.textContent = `Level ${currentLevel}`;
     }
+
     $span_levelView.setAttribute('id', 'level-view');
-    
     $button_nextLevel.addEventListener("click", startNextLevel);
     $button_quit.addEventListener("click", resetGame);
 
@@ -338,7 +353,7 @@ const init = () => {
       case "0" : 
         $div_gameAlert.innerText = "Tie game.";
         $button_nextLevel.classList.add('try-again');
-        $button_nextLevel.textContent = "Try again." 
+        $button_nextLevel.textContent = "Tie game, replay level." 
         $button_nextLevel.classList.remove('display-none'); 
         break;
       case "1" :
@@ -347,8 +362,33 @@ const init = () => {
         if (gameType === "progressive") $button_nextLevel.classList.remove('display-none'); 
         break;
       case "2" : {
+        if (gameType === "progressive") {
+          const $div_lifeBar = document.getElementById('life-bar');
+          lives--;
+
+          if ($div_lifeBar.hasChildNodes()) {
+            $div_lifeBar.children[lives].classList.add('empty');
+          }
+        }
+
+        if (lives > 0) {
+          if (currentLevel > 1) {
+            currentLevel -= 2;
+          } else {
+            $button_nextLevel.textContent = "Continue from previous level."             
+          }
+
+          $button_nextLevel.textContent = "Try again." 
+          $button_nextLevel.classList.remove('display-none'); 
+        } else {
         $div_gameAlert.classList.add('loss');
-        $div_gameAlert.innerText = "You lose."
+          if (gameType === "progressive") {
+            $div_gameAlert.innerText = "No lives left. You lose."
+            lives = 3;
+          } else {
+            $div_gameAlert.innerText = "You lose."
+          }
+        }
       };
     } 
 
@@ -357,8 +397,6 @@ const init = () => {
   }
 
   const startNextLevel = () => {
-    const $difficulty = document.getElementById('difficulty');
-    const $boardSize = document.getElementById('board-size');
     const $button_nextLevel = document.getElementById('next-level');
 
     if ($button_nextLevel) {

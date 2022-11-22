@@ -55,6 +55,7 @@ h1 {
   -webkit-filter: drop-shadow(2px 2px #999);
           filter: drop-shadow(2px 2px #999);
   color: rgb(255, 255, 255);
+  margin-bottom: 0;
 }
 
 fieldset {
@@ -242,6 +243,32 @@ button:active {
   background-color: rgb(189, 248, 212);
   border: 2px solid rgb(35, 168, 42);
   color: rgb(8, 95, 8);
+}
+
+#life-bar {
+  display:flex;
+  margin: 0;
+}
+
+.life {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  height: 30px;
+  width: 30px;
+  margin: 1rem;
+}
+
+.life:before {
+  content: "❤";
+  position: relative;
+  color: red;
+  font-size: 3rem;
+}
+
+.life.empty:before {
+  color: grey;
 }
 
 #level-view {
