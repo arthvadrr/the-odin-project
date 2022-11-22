@@ -138,8 +138,6 @@ const init = () => {
     
     $button_nextLevel.addEventListener("click", startNextLevel);
     $button_quit.addEventListener("click", resetGame);
-    
-    $div_board.classList.add(`board-size-${boardSize}`);
 
     //adjust difficulty for board size
     if (gameType === 'progressive') {
@@ -155,6 +153,8 @@ const init = () => {
         case 10: alert ('you win!');
       }
     }
+
+    $div_board.classList.add(`board-size-${boardSize}`);
 
     $button_nextLevel.setAttribute('id', 'next-level');
     $div_gameAlert.setAttribute('id', 'game-alert');
