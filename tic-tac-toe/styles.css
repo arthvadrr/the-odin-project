@@ -39,13 +39,6 @@ h1 {
   color: rgb(255, 255, 255);
 }
 
-#options * {
-  max-width: 100vw;
-  box-sizing: content-box;
-}
-
-
-
 fieldset {
   min-width: 25rem;
   padding-bottom: 1.3rem;
@@ -210,7 +203,11 @@ button:active {
 
 @media screen and (max-width: 810px) {
   html {
-    transform: scale(0.85)
+    transform: scale(0.85);
+  }
+
+  #options {
+    transform: scale(0.95);
   }
 
   #board.board-size-3 {
