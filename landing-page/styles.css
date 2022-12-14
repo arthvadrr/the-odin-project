@@ -446,6 +446,41 @@ main h2 {
           filter: saturate(0.7);
 }
 
+.seed-img {
+  background-image: url("./img/arths-seed.jpeg");
+  height: 400px;
+  width: 100%;
+  background-position: 50% 80%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 8px;
+  filter: sepia(0.4);
+  border: 10px solid orange;
+  border-radius:20px;
+  margin-bottom: 1rem;
+  animation-duration: 20s;
+  animation-iteration-count: infinite;
+  background-size: 100%;
+  transition: all ease;
+  z-index: -100;
+}
+
+.seed-img:hover {
+  animation-name: flashy;
+}
+
+@keyframes flashy {
+  0% {
+    background-size: 100%;
+    border: 10px solid orange;
+  }
+  100% {
+    background-size: 200%;
+    transform: rotate(3000deg) scale(10);
+    border: 10px solid red;
+  }
+}
+
 .card-container:nth-of-type(1) {
   background-image: -webkit-gradient(linear, left bottom, right top, from(#a7c9a4), color-stop(#afcb9c), color-stop(#bacb95), color-stop(#c6cc8d), to(#d4cb87));
   background-image: -o-linear-gradient(left bottom, #a7c9a4, #afcb9c, #bacb95, #c6cc8d, #d4cb87);
@@ -529,6 +564,10 @@ figure figcaption {
 .cta.blue {
   background-color: var(--light-blue);
   color: #fff;
+}
+
+.cta.blue .row .col {
+  z-index: 10;
 }
 
 .cta.blue .row .col .btn {
