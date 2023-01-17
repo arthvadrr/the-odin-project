@@ -1,6 +1,5 @@
 # The Odin Project
-
-## Just playing around with Odin Project tasks
+Just playing around with Odin Project tasks
 
 ### Pages
 
